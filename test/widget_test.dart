@@ -1,30 +1,42 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
+import 'package:flutter_mvvm/core/result/result.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_mvvm/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('Should test Ok Result', () {
+    test('Should create a Ok Result', () {
+      final result = Result.ok('Ok');
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      expect((result as Ok).value, 'Ok');
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    test('Should create a Error Result', () {
+      final result = Result.error(Exception('Something went wrong...'));
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      expect((result as Error).error, isA<Exception>());
+    });
+
+    test('Should create a Ok Result with extension', () {
+      final result = 'Ok'.ok();
+
+      expect((result as Ok).value, 'Ok');
+    });
+
+    test('Should create a Error Result with extension', () {
+      final result = Exception('Something went wrong...').error();
+
+      expect((result as Error).error, isA<Exception>());
+    });
+
+    test('Should create a Ok Result with extension asOk', () {
+      final result = 'Ok'.ok();
+
+      expect(result.asOk.value, 'Ok');
+    });
+
+    test('Should create a Error Result with extension asError', () {
+      final result = Exception('Something went wrong...').error();
+
+      expect(result.asError.error, isA<Exception>());
+    });
   });
 }
