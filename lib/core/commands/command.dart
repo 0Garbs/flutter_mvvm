@@ -7,8 +7,8 @@ typedef CommandAction0<Output extends Object>
         Function();
 
 //? Result 1 have input parameters
-typedef CommandAction1<Output extends Object, T extends Object>
-    = Future<Result<Output>> Function(T);
+typedef CommandAction1<Output extends Object, Input extends Object>
+    = Future<Result<Output>> Function(Input);
 
 abstract class Command<Output extends Object> extends ChangeNotifier {
   //? Verify if command is in execution
@@ -40,5 +40,25 @@ abstract class Command<Output extends Object> extends ChangeNotifier {
       _running = false;
       notifyListeners();
     }
+  }
+}
+
+class Command0<Output extends Object> extends Command<Output> {
+  final CommandAction0<Output> action;
+  Command0(this.action);
+
+  Future<void> execute() async {
+    await _execute(() => action());
+  }
+}
+
+class Command1<Output extends Object, Input extends Object>
+    extends Command<Output> {
+  final CommandAction1<Output, Input> action;
+
+  Command1(this.action);
+
+  Future<void> execute(Input params) async { 
+    await _execute(() => action(params));
   }
 }
