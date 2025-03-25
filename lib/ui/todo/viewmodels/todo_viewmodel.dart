@@ -12,13 +12,13 @@ class TodoViewmodel extends ChangeNotifier {
 
   late Command0 load;
   late Command1<Todo, String> addTodo;
-  late Command1<String, Todo> removeTodo;
+  late Command1<void, Todo> removeTodo;
 
   List<Todo> _todos = [];
 
   List<Todo> get todos => _todos;
 
-  Future<Result> _load() async {
+  Future<Result<List<Todo>>> _load() async {
     await Future.delayed(const Duration(seconds: 1));
     final todos = <Todo>[];
 
@@ -46,13 +46,13 @@ class TodoViewmodel extends ChangeNotifier {
     // return Result.error(Exception('An error occurred')); //? Testing error to see _onResult handling
   }
 
-  Future<Result<String>> _removeTodo(Todo todo) async {
+  Future<Result<void>> _removeTodo(Todo todo) async {
     await Future.delayed(const Duration(seconds: 1));
 
     _todos.remove(todo);
 
     notifyListeners();
 
-    return Result.ok('Todo removed successfully');
+    return Result.ok(null);
   }
 }
