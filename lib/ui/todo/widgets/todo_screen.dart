@@ -27,7 +27,10 @@ class TodoScreen extends StatelessWidget {
         },
         child: ListenableBuilder(
           listenable: todoViewmodel,
-          builder: (context, child) => TodosList(todos: todoViewmodel.todos),
+          builder: (context, child) => TodosList(
+            todos: todoViewmodel.todos,
+            todoViewmodel: todoViewmodel,
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
