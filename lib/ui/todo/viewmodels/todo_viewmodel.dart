@@ -26,6 +26,8 @@ class TodoViewmodel extends ChangeNotifier {
 
     notifyListeners();
 
+    // return Result.ok(todos..add(Todo(id: 1, name: 'Todo 1'))); //? Render 1 item in View
+    // return Result.error(Exception('An error occurred'));       //? Render error in View
     return Result.ok(todos);
   }
 
