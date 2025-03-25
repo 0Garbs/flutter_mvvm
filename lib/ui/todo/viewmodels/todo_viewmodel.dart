@@ -35,12 +35,15 @@ class TodoViewmodel extends ChangeNotifier {
     final lastTodoIndex = _todos.length;
 
     final createdTodo = Todo(id: lastTodoIndex + 1, name: name);
-
+    
     _todos.add(createdTodo);
+ 
+    await Future.delayed(const Duration(seconds: 1));
 
     notifyListeners();
 
     return Result.ok(createdTodo);
+    // return Result.error(Exception('An error occurred')); //? Testing error to see _onResult handling
   }
 
   Future<Result<String>> _removeTodo(Todo todo) async {
