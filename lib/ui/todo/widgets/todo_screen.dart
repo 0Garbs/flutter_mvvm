@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm/ui/todo/viewmodels/todo_viewmodel.dart';
+import 'package:flutter_mvvm/ui/todo/widgets/todos_list.dart';
 
 class TodoScreen extends StatelessWidget {
   final TodoViewmodel todoViewmodel;
@@ -21,19 +22,12 @@ class TodoScreen extends StatelessWidget {
               return const Center(
                   child: Text('An error has occurred getting todos'));
             }
-            return child! ;
+            return child!;
           },
           child: ListenableBuilder(
-              listenable: todoViewmodel,
-              builder: (context, child) {
-                return ListView.builder(
-                  itemCount: todoViewmodel.todos.length,
-                  itemBuilder: (context, index) => ListTile(
-                    leading: Text('${todoViewmodel.todos[index].id}'),
-                    title: Text(todoViewmodel.todos[index].name),
-                  ),
-                );
-              }),
+            listenable: todoViewmodel,
+            builder: (context, child) => TodosList(todos: todoViewmodel.todos), 
+          ),
         ));
   }
 }
