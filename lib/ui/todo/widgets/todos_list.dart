@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mvvm/core/typedefs/todos.dart';
 import 'package:flutter_mvvm/domain/models/todo.dart';
-import 'package:flutter_mvvm/ui/todo/viewmodels/todo_viewmodel.dart';
 import 'package:flutter_mvvm/ui/todo/widgets/todo_tile.dart';
 
 class TodosList extends StatelessWidget {
   final List<Todo> todos;
-  final TodoViewmodel todoViewmodel;
+  final OnDeleteTodo onDeleteTodo;
 
   const TodosList({
     super.key,
     required this.todos,
-    required this.todoViewmodel,
+    required this.onDeleteTodo,
   });
 
   @override
@@ -22,7 +22,7 @@ class TodosList extends StatelessWidget {
       itemCount: todos.length,
       itemBuilder: (context, index) => TodoTile(
         todo: todos[index],
-        todoViewmodel: todoViewmodel,
+        onDeleteTodo: onDeleteTodo,
       ),
     );
   }
