@@ -5,6 +5,6 @@ class Todo {
   Todo({required this.id, required this.name});
 
   factory Todo.fromJson(Map<String, dynamic> json) {
-    return Todo(id: json['id'], name: json['name']);
+    return Todo(id: int.parse(json['id']), name: json['name']);
   }
 }
