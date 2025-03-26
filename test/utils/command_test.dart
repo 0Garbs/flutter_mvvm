@@ -1,5 +1,5 @@
-import 'package:flutter_mvvm/core/commands/command.dart';
-import 'package:flutter_mvvm/core/result/result.dart';
+import 'package:flutter_mvvm/utils/commands/command.dart';
+import 'package:flutter_mvvm/utils/result/result.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
