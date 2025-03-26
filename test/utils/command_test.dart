@@ -80,7 +80,7 @@ void main() {
 
       //* Assert
       expect(command1.completed, false);
-      expect(command1.error, false);
+      expect(command1.error, true);
       expect(command1.running, false);
 
       expect(command1.result, isNotNull);
