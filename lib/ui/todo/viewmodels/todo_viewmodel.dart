@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm/core/commands/command.dart';
 import 'package:flutter_mvvm/core/result/result.dart';
+import 'package:flutter_mvvm/data/repositories/todo/todo_repository.dart';
 import 'package:flutter_mvvm/domain/models/todo.dart';
 
 class TodoViewmodel extends ChangeNotifier {
-  TodoViewmodel() {
+  TodoViewmodel({required TodoRepository todosRepository})
+      : _todosRepository = todosRepository {
     load = Command0(_load)..execute();
     addTodo = Command1(_addTodo);
     removeTodo = Command1(_removeTodo);
   }
+
+  final TodoRepository _todosRepository;
 
   late Command0 load;
   late Command1<Todo, String> addTodo;
@@ -18,41 +22,51 @@ class TodoViewmodel extends ChangeNotifier {
 
   List<Todo> get todos => _todos;
 
-  Future<Result<List<Todo>>> _load() async {
-    await Future.delayed(const Duration(seconds: 1));
-    final todos = <Todo>[];
+  Future<Result> _load() async {
+    final result = await _todosRepository.get();
 
-    _todos = todos;
+    switch (result) {
+      case Ok<List<Todo>>():
+        _todos = [...result.value];   //! Spread operator is needed to don't share the same reference
+        notifyListeners();
+        break;
+      case Error():
+        //TODO: Implement Error
+        break;
+    }
 
-    notifyListeners();
-
-    // return Result.ok(todos..add(Todo(id: 1, name: 'Todo 1'))); //? Render 1 item in View
-    // return Result.error(Exception('An error occurred'));       //? Render error in View
-    return Result.ok(todos);
+    return result;
   }
 
   Future<Result<Todo>> _addTodo(String name) async {
-    final lastTodoIndex = _todos.length;
+    final result = await _todosRepository.add(name);
 
-    final createdTodo = Todo(id: lastTodoIndex + 1, name: name);
-    
-    _todos.add(createdTodo);
- 
-    await Future.delayed(const Duration(seconds: 1));
+    switch (result) {
+      case Ok<Todo>():
+        _todos.add(result.value);
+        notifyListeners();
+        break;
+      case Error():
+        //TODO: Implement Error
+        break;
+    }
 
-    notifyListeners();
-
-    return Result.ok(createdTodo);
-    // return Result.error(Exception('An error occurred')); //? Testing error to see _onResult handling
+    return result;
   }
 
   Future<Result<void>> _removeTodo(Todo todo) async {
-    await Future.delayed(const Duration(seconds: 1));
+    final result = await _todosRepository.remove(todo);
 
-    _todos.remove(todo);
+    switch (result) {
+      case Ok<void>():
+        _todos.remove(todo);
+        notifyListeners();
+        break;
+      case Error():
+        //TODO: Implement Error
+        break;
+    }
 
-    notifyListeners();
-
-    return Result.ok(null);
+    return result;
   }
 }

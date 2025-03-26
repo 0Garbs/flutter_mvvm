@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mvvm/data/repositories/todo/todo_repository_dev.dart';
 import 'package:flutter_mvvm/ui/todo/viewmodels/todo_viewmodel.dart';
 import 'package:flutter_mvvm/ui/todo/widgets/todo_screen.dart';
 
@@ -17,7 +18,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: false,
       ),
-      home: TodoScreen(todoViewmodel: TodoViewmodel() ),
+      home: TodoScreen(
+        todoViewmodel: TodoViewmodel(todosRepository: TodoRepositoryDev()),
+      ),
     );
   }
 }
