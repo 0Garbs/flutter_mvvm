@@ -36,4 +36,27 @@ class ApiClient {
       client.close();
     }
   }
+
+  Future<Result<void>> postTodo(Todo todo) async {
+    final client = _clientHttpFactory;
+
+    try {
+      final request = await client().post(_host, _port, '/todos');
+      request.write(jsonEncode({
+        'name': todo.name,
+      }));
+
+      final response = await request.close();
+
+      if (response.statusCode == 201) {
+        return Result.ok(null);
+      }
+
+      return Result.error(const HttpException('Invalid response'));
+    } on Exception catch (e) {
+      return Result.error(e);
+    } finally {
+      client().close();
+    }
+  }
 }
