@@ -1,4 +1,4 @@
-import 'package:flutter_mvvm/core/result/result.dart';
+import 'package:flutter_mvvm/utils/result/result.dart';
 import 'package:flutter_mvvm/domain/models/todo.dart';
 
 abstract class TodoRepository {

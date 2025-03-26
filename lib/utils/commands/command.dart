@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mvvm/core/result/result.dart';
+import 'package:flutter_mvvm/utils/result/result.dart';
 
 //? Result 0  doesn't have input parameters
 typedef CommandAction0<Output>

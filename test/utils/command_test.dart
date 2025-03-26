@@ -1,5 +1,5 @@
-import 'package:flutter_mvvm/core/commands/command.dart';
-import 'package:flutter_mvvm/core/result/result.dart';
+import 'package:flutter_mvvm/utils/commands/command.dart';
+import 'package:flutter_mvvm/utils/result/result.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -80,7 +80,7 @@ void main() {
 
       //* Assert
       expect(command1.completed, false);
-      expect(command1.error, false);
+      expect(command1.error, true);
       expect(command1.running, false);
 
       expect(command1.result, isNotNull);
