@@ -23,8 +23,18 @@ void main() {
     test('Should create a Todo calling postTodo', () async {
       //? Arrange
       //! Act
-      final result = await client.postTodo(Todo(id: 0, name: 'Todo 1'));
+      final result = await client.postTodo(Todo(id: '', name: 'Todo 1'));
 
+      expect((result as Ok).value, isA<void>());
+    });
+
+    test('Should delete a Todo calling deleteTodo', () async {
+      //? Arrange
+      //! Act
+      final createdTodo = await client.postTodo(Todo(id: '', name: 'Todo 1'));
+      final result = await client.deleteTodo((createdTodo as Ok<Todo>).value);
+
+      //* Assert
       expect((result as Ok).value, isA<void>());
     });
   });
