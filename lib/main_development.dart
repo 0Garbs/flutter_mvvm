@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mvvm/data/repositories/todo/todo_repository_remote.dart';
-import 'package:flutter_mvvm/data/services/api/api_client.dart';
+import 'package:flutter_mvvm/data/repositories/todo/todo_repository_dev.dart';
 import 'package:flutter_mvvm/ui/todo/viewmodels/todo_viewmodel.dart';
 import 'package:flutter_mvvm/ui/todo/widgets/todo_screen.dart';
 
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: false,
       ),
       home: TodoScreen(
-        todoViewmodel: TodoViewmodel(todosRepository: TodoRepositoryRemote(apiClient: ApiClient(host: '10.0.1.80'))),
+        todoViewmodel: TodoViewmodel(todosRepository: TodoRepositoryDev()),
       ),
     );
   }

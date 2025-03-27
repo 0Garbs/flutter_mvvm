@@ -14,11 +14,10 @@ class TodoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Text('${todo.id}'),
+      leading: Text(todo.id),
       title: Text(todo.name),
       trailing: IconButton(
-        onPressed: 
-        () => onDeleteTodo(todo),
+        onPressed: () => onDeleteTodo(todo),
         // () {
         //   todoViewmodel.removeTodo.execute(todo);
         // },
