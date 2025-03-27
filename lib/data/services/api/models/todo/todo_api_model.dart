@@ -1,4 +1,3 @@
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'todo_api_model.g.dart';
@@ -10,5 +9,11 @@ class TodoApiModel with _$TodoApiModel {
     required String name,
   }) = CreateTodoApiModel;
 
-  factory TodoApiModel.fromJson(Map<String, Object> json) => _$TodoApiModelFromJson(json);
+  const factory TodoApiModel.update({
+    required String id,
+    required String name,
+  }) = UpdateTodoApiModel;
+
+  factory TodoApiModel.fromJson(Map<String, Object> json) =>
+      _$TodoApiModelFromJson(json);
 }
