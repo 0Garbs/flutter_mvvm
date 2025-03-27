@@ -3,6 +3,7 @@ import 'package:flutter_mvvm/data/services/api/api_client.dart';
 import 'package:flutter_mvvm/routing/routes.dart';
 import 'package:flutter_mvvm/ui/todo/viewmodels/todo_viewmodel.dart';
 import 'package:flutter_mvvm/ui/todo/widgets/todo_screen.dart';
+import 'package:flutter_mvvm/ui/todo_details/widgets/todo_details_screen.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter routerConfig() {
@@ -18,6 +19,15 @@ GoRouter routerConfig() {
             ),
           ),
         ),
+        routes: [
+          GoRoute(
+            path: ':ids',
+            builder: (context, state) {
+              final todoId = state.pathParameters['ids']!;
+              return TodoDetailsScreen(id: todoId);
+            },
+          ),
+        ],
       ),
     ],
   );
