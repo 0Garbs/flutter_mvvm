@@ -62,6 +62,30 @@ class ApiClient {
     }
   }
 
+  Future<Result<Todo>> updateTodo(UpdateTodoApiModel todo) async {
+    final client = _clientHttpFactory;
+
+    try {
+      final request = await client().put(_host, _port, '/todos/${todo.id}');
+      request.write(jsonEncode(todo.toJson()));
+
+      final response = await request.close();
+
+      if (response.statusCode == 200) {
+        final stringData = await response.transform(utf8.decoder).join();
+        final json = jsonDecode(stringData) as Map<String, dynamic>;
+        final Todo createdTodo = Todo.fromJson(json);
+        return Result.ok(createdTodo);
+      }
+
+      return Result.error(const HttpException('Invalid response'));
+    } on Exception catch (e) {
+      return Result.error(e);
+    } finally {
+      client().close();
+    }
+  }
+
   Future<Result<void>> deleteTodo(Todo todo) async {
     final client = _clientHttpFactory;
 
