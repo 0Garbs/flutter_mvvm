@@ -37,7 +37,7 @@ void main() {
           await client.postTodo(const TodoApiModel.create(name: 'Todo 1'));
       final updateTodo = UpdateTodoApiModel(
           id: createdTodo.asOk.value.id, name: createdTodo.asOk.value.name);
-          
+
       final result = await client.updateTodo(updateTodo);
 
       //* Assert
@@ -53,6 +53,18 @@ void main() {
 
       //* Assert
       expect((result as Ok).value, isA<void>());
+    });
+
+    test('Should test getTodoById', () async {
+      //? Arrange
+      final createdTodo =
+          await client.postTodo(const CreateTodoApiModel(name: 'to get by id'));
+
+      //! Act
+      final result = await client.getTodoById(createdTodo.asOk.value.id);
+
+      //* Assert
+      expect((result as Ok).value, isA<Todo>());
     });
   });
 }
