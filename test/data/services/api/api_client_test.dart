@@ -30,6 +30,20 @@ void main() {
       expect((result as Ok).value, isA<void>());
     });
 
+    test('Should update a Todo calling deleteTodo', () async {
+      //? Arrange
+      //! Act
+      final createdTodo =
+          await client.postTodo(const TodoApiModel.create(name: 'Todo 1'));
+      final updateTodo = UpdateTodoApiModel(
+          id: createdTodo.asOk.value.id, name: createdTodo.asOk.value.name);
+          
+      final result = await client.updateTodo(updateTodo);
+
+      //* Assert
+      expect((result as Ok).value, isA<void>());
+    });
+
     test('Should delete a Todo calling deleteTodo', () async {
       //? Arrange
       //! Act
