@@ -9,7 +9,7 @@ class TodoRepositoryDev implements TodoRepository {
   Future<Result<Todo>> add(String name) async {
     final lastTodoIndex = _todos.length;
 
-    final newTodo = Todo(id: lastTodoIndex + 1, name: name);
+    final newTodo = Todo(id: '${lastTodoIndex + 1}', name: name);
 
     _todos.add(newTodo);
 

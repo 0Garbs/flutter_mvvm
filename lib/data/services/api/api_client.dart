@@ -37,7 +37,7 @@ class ApiClient {
     }
   }
 
-  Future<Result<void>> postTodo(Todo todo) async {
+  Future<Result<Todo>> postTodo(Todo todo) async {
     final client = _clientHttpFactory;
 
     try {
@@ -49,12 +49,33 @@ class ApiClient {
       final response = await request.close();
 
       if (response.statusCode == 201) {
-        return Result.ok(null);
+        final stringData = await response.transform(utf8.decoder).join();
+        final json = jsonDecode(stringData) as Map<String, dynamic>;
+        final Todo createdTodo = Todo.fromJson(json);
+        return Result.ok(createdTodo);
       }
 
       return Result.error(const HttpException('Invalid response'));
     } on Exception catch (e) {
       return Result.error(e);
+    } finally {
+      client().close();
+    }
+  }
+
+  Future<Result<void>> deleteTodo(Todo todo) async {
+    final client = _clientHttpFactory;
+
+    try {
+      final request = await client().delete(_host, _port, '/todos/${todo.id}');
+      final response = await request.close();
+
+      if (response.statusCode == 200) {
+        return Result.ok(null);
+      }
+      return Result.error(const HttpException('Invalid response'));
+    } on Exception catch (error) {
+      return Result.error(error);
     } finally {
       client().close();
     }
