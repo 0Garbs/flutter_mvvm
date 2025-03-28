@@ -10,6 +10,7 @@ class TodoViewmodel extends ChangeNotifier {
     load = Command0(_load)..execute();
     addTodo = Command1(_addTodo);
     removeTodo = Command1(_removeTodo);
+    updateTodo = Command1(_updateTodo);
   }
 
   final TodoRepository _todosRepository;
@@ -17,6 +18,7 @@ class TodoViewmodel extends ChangeNotifier {
   late Command0 load;
   late Command1<Todo, (String, String, bool)> addTodo;
   late Command1<void, Todo> removeTodo;
+  late Command1<Todo, Todo> updateTodo;
 
   List<Todo> _todos = [];
 
@@ -68,6 +70,23 @@ class TodoViewmodel extends ChangeNotifier {
     switch (result) {
       case Ok<void>():
         _todos.remove(todo);
+        notifyListeners();
+        break;
+      case Error():
+        //TODO: Implement Error
+        break;
+    }
+
+    return result;
+  }
+
+  Future<Result<Todo>> _updateTodo(Todo todo) async {
+    final result = await _todosRepository.update(todo);
+
+    switch (result) {
+      case Ok<Todo>():
+        final index = _todos.indexWhere((e) => e.id == todo.id);
+        _todos[index] = todo;
         notifyListeners();
         break;
       case Error():
