@@ -24,8 +24,8 @@ void main() {
     test('Should create a Todo calling postTodo', () async {
       //? Arrange
       //! Act
-      final result =
-          await client.postTodo(const TodoApiModel.create(name: 'Todo 1'));
+      final result = await client.postTodo(const TodoApiModel.create(
+          name: 'Todo 1', description: '', done: false));
 
       expect((result as Ok).value, isA<void>());
     });
@@ -33,10 +33,20 @@ void main() {
     test('Should update a Todo calling deleteTodo', () async {
       //? Arrange
       //! Act
-      final createdTodo =
-          await client.postTodo(const TodoApiModel.create(name: 'Todo 1'));
+      final createdTodo = await client.postTodo(
+        const TodoApiModel.create(
+          name: 'Todo 1',
+          description: '',
+          done: false,
+        ),
+      );
+
       final updateTodo = UpdateTodoApiModel(
-          id: createdTodo.asOk.value.id, name: createdTodo.asOk.value.name);
+        id: createdTodo.asOk.value.id,
+        name: createdTodo.asOk.value.name,
+        description: createdTodo.asOk.value.description,
+        done: !createdTodo.asOk.value.done,
+      );
 
       final result = await client.updateTodo(updateTodo);
 
@@ -47,8 +57,11 @@ void main() {
     test('Should delete a Todo calling deleteTodo', () async {
       //? Arrange
       //! Act
-      final createdTodo =
-          await client.postTodo(const TodoApiModel.create(name: 'Todo 1'));
+      final createdTodo = await client.postTodo(const TodoApiModel.create(
+        name: 'Todo 1',
+        description: '',
+        done: false,
+      ));
       final result = await client.deleteTodo((createdTodo as Ok<Todo>).value);
 
       //* Assert
@@ -57,8 +70,11 @@ void main() {
 
     test('Should test getTodoById', () async {
       //? Arrange
-      final createdTodo =
-          await client.postTodo(const CreateTodoApiModel(name: 'to get by id'));
+      final createdTodo = await client.postTodo(const CreateTodoApiModel(
+        name: 'to get by id',
+        description: '',
+        done: false,
+      ));
 
       //! Act
       final result = await client.getTodoById(createdTodo.asOk.value.id);
