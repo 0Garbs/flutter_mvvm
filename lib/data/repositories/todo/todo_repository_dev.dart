@@ -6,10 +6,19 @@ class TodoRepositoryDev implements TodoRepository {
   final _todos = <Todo>[];
 
   @override
-  Future<Result<Todo>> add(String name) async {
+  Future<Result<Todo>> add({
+    required String name,
+    required String description,
+    required bool done,
+  }) async {
     final lastTodoIndex = _todos.length;
 
-    final newTodo = Todo(id: '${lastTodoIndex + 1}', name: name);
+    final newTodo = Todo(
+      id: '${lastTodoIndex + 1}',
+      name: name,
+      description: description,
+      done: done,
+    );
 
     _todos.add(newTodo);
 
