@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm/ui/todo_details/viewmodels/todo_details_viewmodel.dart';
+import 'package:flutter_mvvm/ui/todo_details/widgets/todo_description.dart';
 import 'package:flutter_mvvm/ui/todo_details/widgets/todo_title.dart';
 
 class TodoDetailsScreen extends StatefulWidget {
@@ -40,7 +41,15 @@ class _TodoDetailsScreenState extends State<TodoDetailsScreen> {
         child: ListenableBuilder(
             listenable: widget.viewmodel,
             builder: (context, child) {
-              return TodoTitle(todo: widget.viewmodel.todo);
+              return Column(
+                children: [
+                  TodoTitle(todo: widget.viewmodel.todo),
+                  if (widget.viewmodel.todo.description.isNotEmpty)
+                    TodoDescription(
+                      description: widget.viewmodel.todo.description,
+                    ),
+                ],
+              );
             }),
       ),
     );
