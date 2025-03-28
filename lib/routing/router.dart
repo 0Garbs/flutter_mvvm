@@ -3,28 +3,37 @@ import 'package:flutter_mvvm/data/services/api/api_client.dart';
 import 'package:flutter_mvvm/routing/routes.dart';
 import 'package:flutter_mvvm/ui/todo/viewmodels/todo_viewmodel.dart';
 import 'package:flutter_mvvm/ui/todo/widgets/todo_screen.dart';
+import 'package:flutter_mvvm/ui/todo_details/viewmodels/todo_details_viewmodel.dart';
 import 'package:flutter_mvvm/ui/todo_details/widgets/todo_details_screen.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter routerConfig() {
+  final todosRepository = TodoRepositoryRemote(
+    apiClient: ApiClient(host: '10.0.1.80'),
+  );
+
   return GoRouter(
     initialLocation: Routes.todos,
     routes: [
       GoRoute(
         path: Routes.todos,
         builder: (context, state) => TodoScreen(
-          todoViewmodel: TodoViewmodel(
-            todosRepository: TodoRepositoryRemote(
-              apiClient: ApiClient(host: '10.0.1.80'),
-            ),
-          ),
+          todoViewmodel: TodoViewmodel(todosRepository: todosRepository),
         ),
         routes: [
           GoRoute(
             path: ':ids',
             builder: (context, state) {
               final todoId = state.pathParameters['ids']!;
-              return TodoDetailsScreen(id: todoId);
+              final todoDetailsViewModel =
+                  TodoDetailsViewmodel(todoRepository: todosRepository);
+
+              todoDetailsViewModel.load.execute(todoId);
+
+              return TodoDetailsScreen(
+                id: todoId,
+                viewmodel: todoDetailsViewModel,
+              );
             },
           ),
         ],
