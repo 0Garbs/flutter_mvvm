@@ -43,4 +43,13 @@ class TodoRepositoryDev implements TodoRepository {
   Future<Result<Todo>> getById(String id) async {
     return Result.ok(_todos.firstWhere((e) => e.id == id));
   }
+
+  @override
+  Future<Result<Todo>> update(Todo todo) async {
+    final index = _todos.indexWhere((e) => e.id == todo.id);
+
+    _todos[index] = todo;
+
+    return Result.ok(todo);
+  }
 }

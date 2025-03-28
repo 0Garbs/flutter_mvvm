@@ -6,11 +6,13 @@ import 'package:go_router/go_router.dart';
 
 class TodoTile extends StatelessWidget {
   final OnDeleteTodo onDeleteTodo;
+  final OnUpdateTodo onUpdateTodo;
   final Todo todo;
   const TodoTile({
     super.key,
     required this.todo,
     required this.onDeleteTodo,
+    required this.onUpdateTodo,
   });
 
   @override
@@ -19,7 +21,10 @@ class TodoTile extends StatelessWidget {
       onTap: () => context.push(Routes.todoDetails(todo.id)),
       child: Card(
         child: ListTile(
-          leading: Text(todo.id),
+          leading: Checkbox(
+            value: todo.done,
+            onChanged: (value) => onUpdateTodo(todo.copyWith(done: value)),
+          ),
           title: Text(todo.name),
           trailing: IconButton(
             onPressed: () => onDeleteTodo(todo),
