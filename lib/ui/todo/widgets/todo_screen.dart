@@ -79,6 +79,9 @@ class _TodoScreenState extends State<TodoScreen> {
           listenable: widget.todoViewmodel,
           builder: (context, child) => TodosList(
             todos: widget.todoViewmodel.todos,
+            onUpdateTodo: (todo) {
+              widget.todoViewmodel.updateTodo.execute(todo);
+            },
             onDeleteTodo: (todo) {
               widget.todoViewmodel.removeTodo.execute(todo);
             },
