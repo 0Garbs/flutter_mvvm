@@ -12,6 +12,7 @@ class AddTodoWidget extends StatefulWidget {
 class _AddTodoWidgetState extends State<AddTodoWidget> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
 
   final verticalGap = const SizedBox(height: 16.0);
 
@@ -58,6 +59,7 @@ class _AddTodoWidgetState extends State<AddTodoWidget> {
   @override
   void dispose() {
     _nameController.dispose();
+    _descriptionController.dispose();
     widget.todoViewmodel.addTodo.removeListener(_onResult);
     super.dispose();
   }
@@ -66,36 +68,51 @@ class _AddTodoWidgetState extends State<AddTodoWidget> {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: IntrinsicHeight(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              const Row(children: [Text('Add new Todo\'s:')]),
-              verticalGap,
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-              ),
-              verticalGap,
-              ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState?.validate() == false) {
-                      return;
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                const Row(children: [Text('Add new Todo\'s:')]),
+                verticalGap,
+                TextFormField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter some text';
                     }
-                    widget.todoViewmodel.addTodo.execute(
-                      (_nameController.text, '', false),
-                    );
+                    return null;
                   },
-                  child: const Text('Send')),
-            ],
+                ),
+                verticalGap,
+                TextFormField(
+                  minLines: 3,
+                  maxLines: null,
+                  controller: _descriptionController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                verticalGap,
+                ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState?.validate() == false) {
+                        return;
+                      }
+                      widget.todoViewmodel.addTodo.execute(
+                        (
+                          _nameController.text,
+                          _descriptionController.text,
+                          false
+                        ),
+                      );
+                    },
+                    child: const Text('Send')),
+              ],
+            ),
           ),
         ),
       ),
