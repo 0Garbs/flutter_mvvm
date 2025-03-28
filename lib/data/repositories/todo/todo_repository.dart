@@ -7,4 +7,6 @@ abstract class TodoRepository {
   Future<Result<Todo>> add(String name);
 
   Future<Result<void>> remove(Todo todo);
+
+  Future<Result<Todo>> getById(String id);
 }
