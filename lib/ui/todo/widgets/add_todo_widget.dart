@@ -90,7 +90,9 @@ class _AddTodoWidgetState extends State<AddTodoWidget> {
                     if (_formKey.currentState?.validate() == false) {
                       return;
                     }
-                    widget.todoViewmodel.addTodo.execute(_nameController.text);
+                    widget.todoViewmodel.addTodo.execute(
+                      (_nameController.text, '', false),
+                    );
                   },
                   child: const Text('Send')),
             ],

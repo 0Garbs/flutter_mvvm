@@ -4,7 +4,11 @@ import 'package:flutter_mvvm/domain/models/todo.dart';
 abstract class TodoRepository {
   Future<Result<List<Todo>>> get();
 
-  Future<Result<Todo>> add(String name);
+  Future<Result<Todo>> add({
+    required String name,
+    required String description,
+    required bool done,
+  });
 
   Future<Result<void>> remove(Todo todo);
 

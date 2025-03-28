@@ -25,7 +25,7 @@ void main() {
       expect(todoViewModel.todos, isEmpty);
 
       //! Act
-      await todoViewModel.addTodo.execute('Todo 1');
+      await todoViewModel.addTodo.execute(('Todo 1', '', false));
 
       //* Assert
       expect(todoViewModel.todos, isNotEmpty);
@@ -38,7 +38,7 @@ void main() {
 
       expect(todoViewModel.todos, isEmpty);
 
-      await todoViewModel.addTodo.execute('Todo 1');
+      await todoViewModel.addTodo.execute(('Todo 1', '', false));
 
       expect(todoViewModel.todos, isNotEmpty);
 
